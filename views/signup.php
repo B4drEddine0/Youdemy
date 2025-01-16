@@ -44,7 +44,7 @@
                     <p class="text-gray-400 mt-2">Join our learning community today</p>
                 </div>
 
-                <form class="space-y-6">
+                <form class="space-y-6" method='POST' action='../processes/auth.php'>
                     <div class="grid grid-cols-2 gap-4 mb-6">
                         <label class="flex items-center justify-center p-4 border border-purple-500/30 rounded-xl cursor-pointer hover:bg-purple-500/10 transition-colors">
                             <input type="radio" name="role" value="student" class="hidden" checked>
@@ -60,26 +60,17 @@
                         </label>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-gray-400 text-sm mb-2">First Name</label>
-                            <input type="text" 
+                            <label class="block text-gray-400 text-sm mb-2">UserName</label>
+                            <input type="text" name='username'
                                    class="w-full bg-white/5 border border-gray-600 rounded-xl px-4 py-3 text-white
                                           focus:outline-none focus:border-purple-500 transition-colors"
                                    placeholder="John">
                         </div>
-                        <div>
-                            <label class="block text-gray-400 text-sm mb-2">Last Name</label>
-                            <input type="text" 
-                                   class="w-full bg-white/5 border border-gray-600 rounded-xl px-4 py-3 text-white
-                                          focus:outline-none focus:border-purple-500 transition-colors"
-                                   placeholder="Doe">
-                        </div>
-                    </div>
 
                     <div>
                         <label class="block text-gray-400 text-sm mb-2">Email Address</label>
-                        <input type="email" 
+                        <input type="email" name='email'
                                class="w-full bg-white/5 border border-gray-600 rounded-xl px-4 py-3 text-white
                                       focus:outline-none focus:border-purple-500 transition-colors"
                                placeholder="john@example.com">
@@ -87,7 +78,7 @@
 
                     <div>
                         <label class="block text-gray-400 text-sm mb-2">Password</label>
-                        <input type="password" 
+                        <input type="password" name='password'
                                class="w-full bg-white/5 border border-gray-600 rounded-xl px-4 py-3 text-white
                                       focus:outline-none focus:border-purple-500 transition-colors"
                                placeholder="••••••••">
@@ -103,7 +94,7 @@
                         </label>
                     </div>
 
-                    <button type="submit" 
+                    <button type="submit" name='createAcc'
                             class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl py-3 font-medium
                                    hover:opacity-90 transform transition-all duration-300 hover:scale-[1.02]
                                    focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900">
