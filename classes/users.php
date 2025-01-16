@@ -90,6 +90,23 @@ class User{
             return $error;
         }
     }
+
+    public function getUsers(){
+        $query = 'select * from users where role <> "admin"';
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function updateStatus($id,$status){
+        $query = 'UPDATE users SET status = :status where users_id = :users_id';
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':status',$status);
+        $stmt->bindParam(':users_id',$id);
+        if($stmt->execute()){
+            header('location: ../views/dashboard-admin.php');
+        }
+    }
 }
 
 

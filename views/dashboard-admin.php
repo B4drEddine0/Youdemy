@@ -1,3 +1,14 @@
+<?php
+require_once '../classes/users.php';
+
+if($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $userId = $_POST['userId'];
+    $status = $_POST['status'];
+    
+    $user = new User();
+    $user->updateStatus($userId, $status);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -93,7 +104,11 @@
                         </svg>
                     </div>
                 </div>
-                <div class="text-3xl font-bold">1,234</div>
+                <div class="text-3xl font-bold"><?php
+                $user = new User();
+                $users = $user->getUsers();
+                echo count($user->getUsers());
+                ?></div>
                 <div class="flex items-center text-green-400 text-sm mt-2">
                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
@@ -121,7 +136,7 @@
             </div>
         </div>
 
-        <div class="glass-effect rounded-2xl p-6 mt-8">
+        <!-- <div class="glass-effect rounded-2xl p-6 mt-8">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-xl font-bold">Courses Management</h3>
                 <div class="flex gap-3">
@@ -226,7 +241,74 @@
                     </button>
                 </div>
             </div>
-        </div>
+        </div> -->
+
+
+        <div class="glass-effect rounded-2xl p-6 mt-8">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold">Users Management</h3>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="text-gray-400 text-sm border-b border-gray-800">
+                            <th class="text-left py-4 px-4 font-medium">User</th>
+                            <th class="text-left py-4 px-4 font-medium">Email</th>
+                            <th class="text-left py-4 px-4 font-medium">Role</th>
+                            <th class="text-left py-4 px-4 font-medium">Status</th>
+                            <th class="text-right py-4 px-4 font-medium">Actions</th>
+                        </tr>
+                    </thead>
+                    <?php foreach($users as $user):?>
+                    <tbody>
+                        <tr class="border-b border-gray-800 text-sm">
+                            <td class="py-4 px-4">
+                                <div class="flex items-center gap-3">
+                                    <img src="https://ui-avatars.com/api/?name=John+Doe&background=6D28D9&color=fff" 
+                                         alt="User avatar" 
+                                         class="w-8 h-8 rounded-full">
+                                    <span><?= $user['username']?></span>
+                                </div>
+                            </td>
+                            <td class="py-4 px-4 text-gray-400"><?= $user['email']?></td>
+                            <td class="py-4 px-4">
+                                <span class="px-2 py-1 bg-blue-500/10 text-blue-400 rounded-lg text-xs">
+                                <?= $user['role']?>
+                                </span>
+                            </td>
+                            <td class="py-4 px-4">
+                                <?php 
+                                $statusColor = match($user['status']) {
+                                    'active' => 'green',
+                                    'suspended' => 'red',
+                                    default => 'yellow'
+                                };
+                                ?>
+                                <span class="px-2 py-1 bg-<?= $statusColor ?>-500/10 text-<?= $statusColor ?>-400 rounded-lg text-xs">
+                                    <?= $user['status'] ?>
+                                </span>
+                            </td>
+                            <td class="py-4 px-4">
+                                <div class="flex justify-end">
+                                    <form action="" method="POST">
+                                        <input type="hidden" name="userId" value="<?= $user['users_id'] ?>">
+                                        <select name="status" class="bg-purple-500/10 border border-purple-500/20 rounded-xl px-3 py-1 text-sm 
+                                                focus:outline-none focus:border-purple-500/50 text-white"onchange="this.form.submit()">
+                                            <option value="" class="bg-slate-900 text-white">Actions</option>
+                                            <option value="active" class="bg-slate-900 text-white">Activate</option>
+                                            <option value="suspended" class="bg-slate-900 text-white">Suspend</option>
+                                            <option value="deleted" class="bg-slate-900 text-white">Delete</option>
+                                        </select>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php endforeach;?>
+                    </tbody>
+                </table>
+            </div>
+
     </main>
 </body>
 </html>
