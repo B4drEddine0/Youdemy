@@ -1,7 +1,7 @@
 <?php
 require_once 'database.php';
 class Categorie {
-    private $db;
+    protected $db;
 
     public function __construct() {
         $database = new DbConnection;

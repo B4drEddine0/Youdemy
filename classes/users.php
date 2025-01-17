@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once 'database.php';
 
 class User{
@@ -63,7 +62,7 @@ class User{
 
         if($user && password_verify($this->password, $user['password'])) {
 
-                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['user_id'] = $user['users_id'];
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['role'] = $user['role'];
                 
