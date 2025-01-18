@@ -1,5 +1,5 @@
 <?php 
-session_start()
+require_once '../classes/course.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -112,26 +112,33 @@ session_start()
                 </a>
             </div>
 
+
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <?php 
+                        $course = new Course();
+                        $courses = $course->getTechCourses($_SESSION['user_id']);
+                        foreach($courses as $cours):
+                    ?>
                 <div class="glass-effect rounded-2xl overflow-hidden group course-card">
-                    <img src="https://img.freepik.com/vecteurs-premium/modele-icone-education-moderne-3d-conception-icone-plate-ui-ux_606705-33.jpg?w=740" alt="Course thumbnail" 
+                    <img src="<?= $cours['image']?>" alt="Course thumbnail" 
                          class="w-full h-48 object-cover">
                     <div class="p-6">
                         <div class="flex justify-between items-start mb-4">
                             <div>
-                                <h4 class="text-lg font-semibold mb-1">React Masterclass</h4>
-                                <p class="text-gray-400 text-sm">Modern React with Hooks</p>
+                                <h4 class="text-lg font-semibold mb-1"><?= $cours['title']?></h4>
+                                <p class="text-gray-400 text-sm"><?= $cours['description']?></p>
                             </div>
                             <span class="bg-yellow-500/10 text-yellow-400 text-xs px-2 py-1 rounded-full">156 students</span>
                         </div>
                         <div class="course-actions opacity-0 group-hover:opacity-100 transition-opacity mt-4 pt-4 border-t border-gray-700">
                             <div class="flex justify-between">
-                                <button class="text-purple-400 hover:text-purple-300">Edit</button>
-                                <button class="text-purple-400 hover:text-purple-300">View Details</button>
+                                <a href="course_details.php?id=<?= $cours['courses_id']?>&type=<?= $cours['type']?>"><button class="text-purple-400 hover:text-purple-300">Edit</button></a>
+                                <a href="course_details.php?id=<?= $cours['courses_id']?>&type=<?= $cours['type']?>"><button class="text-purple-400 hover:text-purple-300">View Details</button></a>
                             </div>
                         </div>
                     </div>
                 </div>
+                <?php endforeach;?>
             </div>
         </div>
 

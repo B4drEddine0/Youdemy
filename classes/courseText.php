@@ -39,11 +39,15 @@ class CourseText extends Course{
         return false; 
     }
 
-    public function getCourses(){
-        $query = "SELECT * FROM courses ORDER BY name";
+    public function getCourseDet($id){
+        $query = "SELECT c.title, c.description, c.image, c.category_id, cat.name as category_name, c.teacher_id,
+        u.username as teacher_name, t.content, GROUP_CONCAT(tg.name) as tags FROM courses c JOIN text_content t ON c.courses_id = t.courses_id 
+        JOIN users u ON c.teacher_id = u.users_id JOIN categories cat ON c.category_id = cat.cat_id LEFT JOIN course_tags ct ON c.courses_id = ct.courses_id
+        LEFT JOIN tags tg ON ct.tag_id = tg.tag_id WHERE c.courses_id = :courses_id";
         $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':courses_id',$id);
         $stmt->execute();
-        return $stmt->fetchAll();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
 ?>

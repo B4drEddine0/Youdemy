@@ -22,9 +22,18 @@ class Course{
         $stmt->execute();
     }
 
-    public function getCourses(){
-        $query = "SELECT * FROM courses ORDER BY name";
+    public function getTechCourses($id){
+        $query = "SELECT * FROM courses WHERE teacher_id = :teacher_id ORDER BY title;";
         $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':teacher_id',$id);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    public function getCourseDet($id){
+        $query = "SELECT * FROM courses WHERE courses_id = :courses_id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':courses_id',$id);
         $stmt->execute();
         return $stmt->fetchAll();
     }

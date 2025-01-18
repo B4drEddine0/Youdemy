@@ -1,157 +1,136 @@
+<?php
+require_once '../classes/courseText.php';
+require_once '../classes/courseVideo.php';
+
+if(isset($_GET['id'])){
+    $id = $_GET['id'];
+    if($_GET['type']==='text'){
+        $courseText = new CourseText();
+        $courseDetails = $courseText->getCourseDet($id);
+    }else{
+        $courseText = new CourseVideo();
+        $courseDetails = $courseText->getCourseDet($id);
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JavaScript Basics - YouDemy</title>
+    <title>Course Details - YouDemy</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .glass-effect {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
         }
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%;
-        }
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
     </style>
 </head>
 <body class="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white min-h-screen">
-    <header class="glass-effect border-b border-gray-800 sticky top-0 z-50">
-        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
+    <nav class="glass-effect border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
                 <div class="flex items-center">
-                    <a href="/" class="text-2xl font-bold text-white">YouDemy</a>
+                    <h1 class="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                        YouDemy
+                    </h1>
                 </div>
-                <div class="flex items-center space-x-4">
-                    <a href="#" class="text-gray-300 hover:text-white">Home</a>
-                    <a href="#" class="text-gray-300 hover:text-white">Courses</a>
-                    <a href="#" class="text-gray-300 hover:text-white">About</a>
+
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="#" class="px-3 py-2 text-gray-300 hover:text-purple-400">Dashboard</a>
+                    <a href="#" class="px-3 py-2 text-purple-400">Courses</a>
+                    <a href="#" class="px-3 py-2 text-gray-300 hover:text-purple-400">My Learning</a>
+                    <a href="#" class="px-3 py-2 text-gray-300 hover:text-purple-400">Analytics</a>
+                </div>
+
+                <div class="flex items-center">
+                    <button class="flex items-center space-x-3 glass-effect rounded-full px-4 py-2">
+                        <img src="https://ui-avatars.com/api/?name=John+Doe" alt="User" 
+                             class="w-8 h-8 rounded-full">
+                        <span>John Doe</span>
+                    </button>
                 </div>
             </div>
-        </nav>
-    </header>
+        </div>
+    </nav>
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="mb-8">
-            <h1 class="text-4xl font-bold mb-4">JavaScript Fundamentals: From Zero to Hero</h1>
-            <div class="flex items-center text-gray-400">
-                <span class="mr-4">By John Doe</span>
-                <span>Beginner Level</span>
+        <div class="glass-effect rounded-2xl p-8 mb-8">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="md:col-span-1">
+                    <img src="<?=$courseDetails['image'];?>" 
+                         alt="course_image" 
+                         class="w-full h-64 object-cover rounded-xl">
+                </div>
+                
+                <div class="md:col-span-2 space-y-4">
+                    <h1 class="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                      <?=$courseDetails['title'];?>
+                    </h1>
+                    
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                      d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                            </svg>
+                            <span class="text-gray-300"><?=$courseDetails['category_name'];?></span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                            </svg>
+                            <span class="text-gray-300"><?=$courseDetails['teacher_name'];?></span>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap gap-2">
+                        <?php 
+                        $tags = explode(',', $courseDetails['tags']);
+                        foreach($tags as $tag): ?>
+                            <span class="px-3 py-1 bg-purple-500/10 text-purple-400 rounded-full text-sm"><?= trim($tag) ?></span>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <p class="text-gray-300">
+                        <?=$courseDetails['description'];?>
+                    </p>
+                            
+                    <button class="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 
+                                 text-white px-6 py-2.5 rounded-xl transition duration-200 inline-flex items-center space-x-2">
+                        <span>Enroll Now</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                        </svg>
+                    </button>
+                </div>
             </div>
         </div>
 
-        <div class="flex flex-col lg:flex-row gap-8">
-            <div class="lg:w-2/3">
-                <div class="glass-effect rounded-2xl overflow-hidden mb-8">
-                    <div class="video-container">
-                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
-                                frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen>
-                        </iframe>
-                    </div>
-                </div>
 
-                <div class="glass-effect rounded-2xl p-8">
-                    <h2 class="text-2xl font-bold mb-6">About This Course</h2>
-                    <p class="text-gray-300 mb-6">
-                        Learn JavaScript from scratch! This course covers all the fundamentals you need 
-                        to start your journey in web development. Perfect for beginners who want to 
-                        understand modern JavaScript programming.
-                    </p>
-                    
-                    <h3 class="text-xl font-bold mb-4">What You'll Learn</h3>
-                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-300">
-                        <li class="flex items-center space-x-2">
-                            <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                            </svg>
-                            <span>JavaScript Basics</span>
-                        </li>
-                        <li class="flex items-center space-x-2">
-                            <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                            </svg>
-                            <span>DOM Manipulation</span>
-                        </li>
-                        <li class="flex items-center space-x-2">
-                            <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                            </svg>
-                            <span>ES6+ Features</span>
-                        </li>
-                        <li class="flex items-center space-x-2">
-                            <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                            </svg>
-                            <span>Async Programming</span>
-                        </li>
-                    </ul>
-                </div>
+        <div class="glass-effect rounded-2xl p-8">
+            <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-6">
+                Course Content
+            </h2>
+            
+            <?php if($_GET['type']==='video'): ?>
+            <div class="aspect-w-16 aspect-h-9 mb-6">
+                <iframe src="<?=$courseDetails['content'];?>" 
+                        class="w-full h-[500px] rounded-xl"
+                        allowfullscreen>
+                </iframe>
             </div>
+                <?php else :?>
 
-            <div class="lg:w-1/3">
-                <div class="glass-effect rounded-2xl p-6 sticky top-24">
-                    <div class="text-center mb-6">
-                        <button class="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl 
-                                     py-4 px-6 font-medium hover:opacity-90 transition-all duration-300 
-                                     transform hover:scale-[1.02] mb-4">
-                            Start Learning
-                        </button>
-                    </div>
-
-                    <div class="space-y-4">
-                        <h3 class="font-semibold">Course Details:</h3>
-                        <ul class="space-y-3">
-                            <li class="flex items-center space-x-3">
-                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                </svg>
-                                <span>8 hours of content</span>
-                            </li>
-                            <li class="flex items-center space-x-3">
-                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                </svg>
-                                <span>Certificate included</span>
-                            </li>
-                            <li class="flex items-center space-x-3">
-                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                          d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"/>
-                                </svg>
-                                <span>Beginner friendly</span>
-                            </li>
-                            <li class="flex items-center space-x-3">
-                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                </svg>
-                                <span>Lifetime access</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+            <div class="prose prose-invert max-w-none">
+                <p class="text-gray-300">
+                <?=$courseDetails['content'];?>
+                </p>
             </div>
+            <?php endif;?>
         </div>
     </main>
-
-    <footer class="glass-effect border-t border-gray-800 mt-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div class="text-center text-gray-400">
-                <p>© 2024 YouDemy. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
 </body>
 </html>
