@@ -128,11 +128,14 @@ require_once '../classes/course.php';
                                 <h4 class="text-lg font-semibold mb-1"><?= $cours['title']?></h4>
                                 <p class="text-gray-400 text-sm"><?= $cours['description']?></p>
                             </div>
-                            <span class="bg-yellow-500/10 text-yellow-400 text-xs px-2 py-1 rounded-full">156 students</span>
+                            <span class="bg-yellow-500/10 text-yellow-400 text-xs px-2 py-1 rounded-full"><?= $cours['name']?></span>
                         </div>
                         <div class="course-actions opacity-0 group-hover:opacity-100 transition-opacity mt-4 pt-4 border-t border-gray-700">
                             <div class="flex justify-between">
-                                <a href="course_details.php?id=<?= $cours['courses_id']?>&type=<?= $cours['type']?>"><button class="text-purple-400 hover:text-purple-300">Edit</button></a>
+                                <div>
+                                <a href="edit_course.php?id=<?= $cours['courses_id']?>&type=<?= $cours['type']?>"><button class="text-purple-400 hover:text-purple-300">Edit</button></a>
+                                <a href="../processes/coursePros.php?deleteId=<?= $cours['courses_id']?>"><button class="text-purple-400 hover:text-purple-300">Delete</button></a>
+                                </div>
                                 <a href="course_details.php?id=<?= $cours['courses_id']?>&type=<?= $cours['type']?>"><button class="text-purple-400 hover:text-purple-300">View Details</button></a>
                             </div>
                         </div>

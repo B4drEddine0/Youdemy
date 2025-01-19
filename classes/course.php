@@ -23,7 +23,7 @@ class Course{
     }
 
     public function getTechCourses($id){
-        $query = "SELECT * FROM courses WHERE teacher_id = :teacher_id ORDER BY title;";
+        $query = "SELECT * FROM courses c join categories cat on c.category_id = cat.cat_id WHERE teacher_id = :teacher_id ORDER BY title;";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':teacher_id',$id);
         $stmt->execute();
@@ -34,6 +34,23 @@ class Course{
         $query = "SELECT * FROM courses WHERE courses_id = :courses_id";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':courses_id',$id);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    public function deleteCourse($id){
+        $query='DELETE from courses where courses_id = :courses_id';
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':courses_id',$id);
+        if($stmt->execute()){
+            return true;
+        }
+        return false;
+    }
+
+    public function getCourses(){
+        $query = "SELECT * FROM courses c join categories cat on c.category_id = cat.cat_id ORDER BY title";
+        $stmt = $this->db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll();
     }

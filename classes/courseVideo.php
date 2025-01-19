@@ -49,5 +49,40 @@ class CourseVideo extends Course{
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function EditCourseVideo($id,$title,$description,$teacher,$category,$type,$image,$content,$tags){
+        $query='UPDATE courses SET title = :title, description=:description, teacher_id=:teacher_id, category_id=:category_id, type=:type,image=:image where courses_id = :id ';
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':title',$title);
+        $stmt->bindParam(':description',$description);
+        $stmt->bindParam(':teacher_id',$teacher);
+        $stmt->bindParam(':category_id',$category);
+        $stmt->bindParam(':type',$type);
+        $stmt->bindParam(':image',$image);
+        $stmt->bindParam(':id',$id);
+        if($stmt->execute()){
+            $query='UPDATE video_content SET content = :content where courses_id = :courses_id';
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':courses_id',$id);
+            $stmt->bindParam(':content',$content);
+            if ($stmt->execute()) {
+                $query = "DELETE FROM course_tags WHERE courses_id = :courses_id";
+                $stmt = $this->db->prepare($query);
+                $stmt->bindParam(':courses_id', $id);
+                $stmt->execute();
+                if (!empty($tags)) {
+                    $query = "INSERT INTO course_tags (courses_id, tag_id) VALUES (:courses_id, :tag_id)";
+                    $stmt = $this->db->prepare($query);
+                    foreach ($tags as $tag) {
+                        $stmt->bindParam(':courses_id', $id);
+                        $stmt->bindParam(':tag_id', $tag);
+                        $stmt->execute();
+                    }
+                }
+                return true;
+            }
+        }
+        return false; 
+    }
 }
 ?>

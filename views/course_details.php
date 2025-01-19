@@ -102,7 +102,7 @@ if(isset($_GET['id'])){
                     <input type="hidden" name='courseId' value='<?=$_GET['id']?>'>
                     <button class="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 
                                  text-white px-6 py-2.5 rounded-xl transition duration-200 inline-flex items-center space-x-2"
-                                 type='submit' name='enroll'>
+                                 onclick="return confirm('Do you want to enroll in this course?')" type='submit' name='enroll'>
                         <span>Enroll Now</span>
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
