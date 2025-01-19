@@ -1,3 +1,10 @@
+<?php
+require_once '../classes/enrollments.php';
+
+
+$enroll = new Enrollments();
+$enrolls = $enroll->getEnrollsByTeach($_SESSION['user_id']);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,39 +60,39 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Example Row 1 -->
+                   <?php foreach($enrolls as $enroll):?>
                     <tr class="border-b border-gray-800 hover:bg-purple-500/5">
                         <td class="px-6 py-4">
                             <div class="flex items-center space-x-3">
-                                <img src="https://ui-avatars.com/api/?name=John+Doe" 
+                                <img src="<?=$enroll['image']?>" 
                                      class="w-8 h-8 rounded-full">
                                 <div>
-                                    <div class="font-medium">John Doe</div>
-                                    <div class="text-sm text-gray-400">john@example.com</div>
+                                    <div class="font-medium"><?=$enroll['username']?></div>
+                                    <div class="text-sm text-gray-400"><?=$enroll['email']?></div>
                                 </div>
                             </div>
                         </td>
                         <td class="px-6 py-4">
-                            <div class="font-medium">Web Development Basics</div>
-                            <div class="text-sm text-gray-400">Programming</div>
+                            <div class="font-medium"><?=$enroll['title']?></div>
+                            <div class="text-sm text-gray-400"><?=$enroll['category_name']?></div>
                         </td>
                         <td class="px-6 py-4">
-                            <div class="text-sm">Jan 15, 2024</div>
+                            <div class="text-sm"><?=$enroll['enrollment_date']?></div>
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex ml-2">
-                                <button class="p-1 hover:text-purple-400">
+                            <a href="course_details.php?id=<?= $enroll['courses_id']?>&type=<?= $enroll['type']?>"><button class="p-1 hover:text-purple-400">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
                                               d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
                                               d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
                                     </svg>
-                                </button>
+                                </button></a>
                             </div>
                         </td>
                     </tr>
-
+                    <?php endforeach;?>
                   
                 </tbody>
             </table>

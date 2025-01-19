@@ -31,5 +31,16 @@ class Enrollments {
         return false;
     }
 
+    public function getEnrollsByTeach($user_id){
+        $query='SELECT e.*,c.courses_id,c.teacher_id, c.title,c.type, c.image,u.*,cat.name as category_name FROM enrollments e JOIN courses c ON e.courses_id = c.courses_id
+                 LEFT JOIN categories cat ON c.category_id = cat.cat_id LEFT JOIN users u ON e.student_id = u.users_id WHERE c.teacher_id = :teacher_id';
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':teacher_id',$user_id);
+        if($stmt->execute()){
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        return false;
+    }
+
 }
 ?>

@@ -32,7 +32,7 @@ require_once '../classes/course.php';
                 <div class="hidden md:flex items-center space-x-4">
                     <a href="#" class="px-3 py-2 text-purple-400">Dashboard</a>
                     <a href="#" class="px-3 py-2 text-gray-300 hover:text-purple-400">My Courses</a>
-                    <a href="#" class="px-3 py-2 text-gray-300 hover:text-purple-400">Students</a>
+                    <a href="enrollments.php" class="px-3 py-2 text-gray-300 hover:text-purple-400">Students</a>
                     <a href="#" class="px-3 py-2 text-gray-300 hover:text-purple-400">Analytics</a>
                 </div>
 
