@@ -2,6 +2,7 @@
 require_once '../classes/users.php';
 require_once '../classes/tags.php';
 require_once '../classes/categorie.php';
+require_once '../classes/course.php';
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userId = $_POST['userId'];
@@ -123,7 +124,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </svg>
                     </div>
                 </div>
-                <div class="text-3xl font-bold">56</div>
+                <div class="text-3xl font-bold"><?php
+                $course = new Course();
+                $courses = $course->getCourses();
+                echo count($course->getCourses());
+                ?></div>
                 <div class="flex items-center text-green-400 text-sm mt-2">
                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
@@ -200,50 +205,39 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <th class="text-left py-4 px-4 font-medium">Description</th>
                                 <th class="text-left py-4 px-4 font-medium">Teacher</th>
                                 <th class="text-left py-4 px-4 font-medium">Category</th>
-                                <th class="text-left py-4 px-4 font-medium">Type</th>
-                                <th class="text-left py-4 px-4 font-medium">Status</th>
                                 <th class="text-right py-4 px-4 font-medium">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <?php foreach($courses as $course):?>
                             <tr class="border-b border-gray-800 text-sm">
                                 <td class="py-4 px-4">
                                     <div class="flex items-center gap-3">
-                                        <img src="https://placehold.co/100x60" class="w-[50px] h-[30px] rounded" alt="Course thumbnail">
-                                        <span>Introduction to PHP</span>
+                                        <img src="<?=$course['image']?>" class="w-[50px] h-[30px] rounded" alt="Course thumbnail">
+                                        <span><?=$course['title']?></span>
                                     </div>
                                 </td>
                                 <td class="py-4 px-4 text-gray-400">
-                                    <div class="max-w-xs truncate">Learn PHP from scratch with practical examples...</div>
+                                    <div class="max-w-xs truncate"><?=$course['description']?></div>
                                 </td>
-                                <td class="py-4 px-4">John Doe</td>
+                                <td class="py-4 px-4"><?=$course['username']?></td>
                                 <td class="py-4 px-4">
                                     <span class="px-2 py-1 bg-purple-500/10 text-purple-400 rounded-lg text-xs">
-                                        Programming
-                                    </span>
-                                </td>
-                                <td class="py-4 px-4">
-                                    <span class="px-2 py-1 bg-blue-500/10 text-blue-400 rounded-lg text-xs">
-                                        Premium
-                                    </span>
-                                </td>
-                                <td class="py-4 px-4">
-                                    <span class="px-2 py-1 bg-yellow-500/10 text-yellow-400 rounded-lg text-xs">
-                                        Pending
+                                    <?=$course['name']?>
                                     </span>
                                 </td>
                                 <td class="py-4 px-4">
                                     <div class="flex justify-end gap-2">
-                                        <button class="p-2 hover:bg-purple-500/10 rounded-xl text-purple-400 transition-colors"
+                                    <a href="../processes/coursePros.php?deleteIdAdmin=<?= $course['courses_id']?>"><button class="p-2 hover:bg-purple-500/10 rounded-xl text-purple-400 transition-colors"
                                                 title="delete Course">
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                                 </svg>
-                                        </button>
+                                        </button></a>
                                     </div>
                                 </td>
                             </tr>
-
+                                <?php endforeach;?>
                         </tbody>
                     </table>
                 </div>

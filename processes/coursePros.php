@@ -70,4 +70,12 @@ if(isset($_POST['enroll'])){
         header('location: ../views/mycourses.php');
     }
 }
+
+if(isset($_GET['deleteIdAdmin'])){
+    $id = $_GET['deleteIdAdmin'];
+    $course = new Course();
+    if($course->deleteCourse($id)){
+        header('location: ../views/dashboard-admin.php');
+    }
+}
 ?>

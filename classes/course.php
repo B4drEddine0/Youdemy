@@ -49,7 +49,7 @@ class Course{
     }
 
     public function getCourses(){
-        $query = "SELECT * FROM courses c join categories cat on c.category_id = cat.cat_id ORDER BY title";
+        $query = "SELECT c.*,cat.name,u.username FROM courses c left join categories cat on c.category_id = cat.cat_id left join users u on c.teacher_id = u.users_id ORDER BY title";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll();
