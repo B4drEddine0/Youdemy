@@ -1,3 +1,9 @@
+<?php
+require_once 'classes/course.php';
+
+$course = new Course();
+$courses = $course->getCourses();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +31,6 @@
                     </h1>
                     <div class="hidden md:flex space-x-6">
                         <a href="#" class="text-gray-300 hover:text-purple-400">Home</a>
-                        <a href="#" class="text-gray-300 hover:text-purple-400">My Courses</a>
                     </div>
                 </div>
 
@@ -50,11 +55,11 @@
 
                     <div class="relative">
                         <button class="flex items-center space-x-3 glass-effect rounded-full px-4 py-2 hover:bg-white/10 transition-colors profile-button">
-                            <img src="https://ui-avatars.com/api/?name=Alex+Johnson&background=6D28D9&color=fff" 
+                            <img src="assets/images/profil.webp" 
                                  alt="Alex Johnson" 
                                  class="w-8 h-8 rounded-full">
                             <div class="text-left">
-                                <div class="text-sm font-medium">Alex Johnson</div>
+                                <div class="text-sm font-medium"><?=$_SESSION['username']?></div>
                                 <div class="text-xs text-gray-400">Student</div>
                             </div>
                             <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -64,10 +69,7 @@
 
                         <div class="absolute right-0 mt-2 w-48 py-2 bg-gray-800 rounded-xl glass-effect border border-gray-700 shadow-xl z-50 hidden dropdown-menu">
                             <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-purple-500/10 hover:text-purple-400">
-                                My Profile
-                            </a>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-purple-500/10 hover:text-purple-400">
-                                Account Settings
+                                My Courses
                             </a>
                             <div class="border-t border-gray-700 my-2"></div>
                             <a href="#" class="block px-4 py-2 text-sm text-red-400 hover:bg-red-500/10">
@@ -138,23 +140,31 @@
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <?php
+                foreach($courses as $course):
+            ?>
             <div class="glass-effect rounded-2xl overflow-hidden">
-                <img src="https://placehold.co/800x400/png" alt="Course thumbnail" 
+                <img src="<?=$course['image']?>" alt="Course thumbnail" 
                      class="w-full h-32 object-cover">
                 <div class="p-4">
-                    <h4 class="font-semibold mb-1">Vue.js for Beginners</h4>
-                    <p class="text-gray-400 text-sm mb-2">Learn Vue.js 3 fundamentals</p>
+                    <h4 class="font-semibold mb-1"><?=$course['title']?></h4>
+                    <p class="text-gray-400 text-sm mb-2"><?=$course['description']?></p>
                     <div class="flex items-center justify-between text-sm">
-                        <span class="text-purple-400">Free</span>
-                        <div class="flex items-center text-yellow-400">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                            </svg>
-                            <span class="ml-1">4.8</span>
-                        </div>
+                        <span class="text-purple-400"><?=$course['name']?></span>
+                            <button class="flex items-center text-purple-400 hover:text-purple-300 transition-colors" 
+                                onclick="window.location.href='views/course_details.php?id=<?=$course['courses_id']?>&type=<?= $course['type']?>'">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                </svg>
+                                <span class="ml-1">View Details</span>
+                            </button>
                     </div>
                 </div>
             </div>
+            <?php endforeach;?>
         </div>
     </main>
 
