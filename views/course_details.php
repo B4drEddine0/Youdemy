@@ -11,6 +11,9 @@ if(isset($_GET['id'])){
         $courseText = new CourseVideo();
         $courseDetails = $courseText->getCourseDet($id);
     }
+}else{
+    echo "<script>history.back();</script>";
+    exit();
 }
 ?>
 <!DOCTYPE html>

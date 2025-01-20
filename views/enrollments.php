@@ -1,6 +1,9 @@
 <?php
 require_once '../classes/enrollments.php';
-
+if($_SESSION['role']!='teacher'){
+    echo "<script>history.back();</script>";
+    exit();
+}
 
 $enroll = new Enrollments();
 $enrolls = $enroll->getEnrollsByTeach($_SESSION['user_id']);

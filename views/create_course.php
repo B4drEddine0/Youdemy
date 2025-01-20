@@ -1,6 +1,11 @@
 <?php 
 require_once '../classes/tags.php';
 require_once '../classes/categorie.php';
+
+if($_SESSION['role']!='teacher'){
+    echo "<script>history.back();</script>";
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -4,6 +4,11 @@ require_once '../classes/categorie.php';
 require_once '../classes/courseText.php';
 require_once '../classes/courseVideo.php';
 
+if($_SESSION['role']!='teacher'){
+    echo "<script>history.back();</script>";
+    exit();
+}
+
 if(isset($_GET['id'])){
     $id = $_GET['id'];
     if($_GET['type']==='text'){
@@ -13,6 +18,9 @@ if(isset($_GET['id'])){
         $courseText = new CourseVideo();
         $courseDetails = $courseText->getCourseDet($id);
     }
+}else{
+    echo "<script>history.back();</script>";
+    exit();
 }
 
 

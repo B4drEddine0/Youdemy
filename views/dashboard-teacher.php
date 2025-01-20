@@ -1,5 +1,10 @@
 <?php 
 require_once '../classes/course.php';
+
+if($_SESSION['role']!='teacher'){
+    echo "<script>history.back();</script>";
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

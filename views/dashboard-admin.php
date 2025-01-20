@@ -4,6 +4,11 @@ require_once '../classes/tags.php';
 require_once '../classes/categorie.php';
 require_once '../classes/course.php';
 
+if($_SESSION['role']!='admin'){
+    echo "<script>history.back();</script>";
+    exit();
+}
+
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userId = $_POST['userId'];
     $status = $_POST['status'];
@@ -71,13 +76,19 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <div class="absolute bottom-0 left-0 right-0 p-6">
                 <div class="flex items-center space-x-3 glass-effect rounded-xl p-3">
-                    <img src="https://ui-avatars.com/api/?name=Admin&background=6D28D9&color=fff" 
+                    <img src="../assets/images/profil.webp" 
                          alt="Admin" 
                          class="w-10 h-10 rounded-full">
                     <div>
-                        <div class="font-medium">Admin User</div>
-                        <div class="text-sm text-gray-400">Super Admin</div>
+                        <div class="font-medium mr-16"><?=$_SESSION['username']?></div>
+                        <div class="text-sm text-gray-400"><?=$_SESSION['role']?></div>
                     </div>
+                    <a href="../processes/logout.php" class="hover:text-red-400">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                    </a>
                 </div>
             </div>
         </nav>
@@ -126,8 +137,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 <div class="text-3xl font-bold"><?php
                 $course = new Course();
-                $courses = $course->getCourses();
-                echo count($course->getCourses());
+                $courses = $course->getAllCourses();
+                echo count($course->getAllCourses());
                 ?></div>
                 <div class="flex items-center text-green-400 text-sm mt-2">
                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -64,7 +64,7 @@ $totalPages = $course->getTotalPages();
                                  class="w-8 h-8 rounded-full">
                             <div class="text-left">
                                 <div class="text-sm font-medium"><?=$_SESSION['username']?></div>
-                                <div class="text-xs text-gray-400">Student</div>
+                                <div class="text-xs text-gray-400"><?=$_SESSION['role']?></div>
                             </div>
                             <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
