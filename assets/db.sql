@@ -29,16 +29,16 @@ CREATE TABLE courses (
     category_id INT,
     type ENUM('text', 'video') NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (teacher_id) REFERENCES users(users_id),
-    FOREIGN KEY (category_id) REFERENCES categories(cat_id)
+    FOREIGN KEY (teacher_id) REFERENCES users(users_id) ON DELETE CASCADE,
+    FOREIGN KEY (category_id) REFERENCES categories(cat_id) ON DELETE CASCADE
 );
 
 CREATE TABLE course_tags (
     courses_id INT,
     tag_id INT,
     PRIMARY KEY (courses_id, tag_id),
-    FOREIGN KEY (courses_id) REFERENCES courses(courses_id),
-    FOREIGN KEY (tag_id) REFERENCES tags(tag_id)
+    FOREIGN KEY (courses_id) REFERENCES courses(courses_id) ON DELETE CASCADE,
+    FOREIGN KEY (tag_id) REFERENCES tags(tag_id) ON DELETE CASCADE
 );
 
 
@@ -47,8 +47,8 @@ CREATE TABLE enrollments (
     courses_id INT,
     enrollment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (student_id, courses_id),
-    FOREIGN KEY (student_id) REFERENCES users(users_id),
-    FOREIGN KEY (courses_id) REFERENCES courses(courses_id)
+    FOREIGN KEY (student_id) REFERENCES users(users_id) ON DELETE CASCADE,
+    FOREIGN KEY (courses_id) REFERENCES courses(courses_id) ON DELETE CASCADE
 );
 
 
@@ -56,44 +56,15 @@ CREATE TABLE text_content (
     id INT PRIMARY KEY AUTO_INCREMENT,
     courses_id INT NOT NULL,
     content TEXT NOT NULL,
-    FOREIGN KEY (courses_id) REFERENCES courses(courses_id)
+    FOREIGN KEY (courses_id) REFERENCES courses(courses_id) ON DELETE CASCADE
 );
 
 CREATE TABLE video_content (
     id INT PRIMARY KEY AUTO_INCREMENT,
     courses_id INT NOT NULL,
     content varchar(255) NOT NULL,
-    FOREIGN KEY (courses_id) REFERENCES courses(courses_id)
+    FOREIGN KEY (courses_id) REFERENCES courses(courses_id) ON DELETE CASCADE
 );
 
 
 
-
--- Insert test data
--- Insert admin user
-INSERT INTO users (username, email, password, role, status) 
-VALUES ('admin', 'admin@youdemy.com', 'admin123', 'admin', 'active');
-
--- Insert teacher
-INSERT INTO users (username, email, password, role, status, bio) 
-VALUES ('john_teacher', 'teacher@youdemy.com', 'teacher123', 'teacher', 'active', 'Experienced web development instructor');
-
--- Insert student
-INSERT INTO users (username, email, password, role, status) 
-VALUES ('mike_student', 'student@youdemy.com', 'student123', 'student', 'active');
-
--- Insert categories
-INSERT INTO categories (name) VALUES
-('Web Development'),
-('Mobile Development'),
-('Data Science'),
-('Design');
-
--- Insert tags
-INSERT INTO tags (name) VALUES
-('JavaScript'),
-('PHP'),
-('Python'),
-('React'),
-('Laravel'),
-('UI/UX');
