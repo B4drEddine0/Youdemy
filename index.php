@@ -1,8 +1,15 @@
 <?php
 require_once 'classes/course.php';
 
+
+if(isset($_GET['page'])){
+    $page = $_GET['page'];
+}else{
+    $page=1;
+}
 $course = new Course();
-$courses = $course->getCourses();
+$courses = $course->getCourses($page);
+$totalPages = $course->getTotalPages();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,13 +53,6 @@ $courses = $course->getCourses();
                 </div>
 
                 <div class="flex items-center space-x-4">
-                    <button class="text-gray-300 hover:text-purple-400 p-2 relative">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
-                        </svg>
-                        <span class="absolute top-1 right-1 w-2 h-2 bg-pink-500 rounded-full"></span>
-                    </button>
-
                     <div class="relative">
                         <button class="flex items-center space-x-3 glass-effect rounded-full px-4 py-2 hover:bg-white/10 transition-colors profile-button">
                             <img src="assets/images/profil.webp" 
@@ -68,7 +68,7 @@ $courses = $course->getCourses();
                         </button>
 
                         <div class="absolute right-0 mt-2 w-48 py-2 bg-gray-800 rounded-xl glass-effect border border-gray-700 shadow-xl z-50 hidden dropdown-menu">
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-purple-500/10 hover:text-purple-400">
+                            <a href="views/mycourses.php" class="block px-4 py-2 text-sm text-gray-300 hover:bg-purple-500/10 hover:text-purple-400">
                                 My Courses
                             </a>
                             <div class="border-t border-gray-700 my-2"></div>
@@ -135,11 +135,11 @@ $courses = $course->getCourses();
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow">
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold">Popular Courses</h2>
+            <h2 class="text-2xl font-bold">Course Catalog</h2>
             <a href="#" class="text-purple-400 hover:text-purple-300">View All</a>
         </div>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <?php
                 foreach($courses as $course):
             ?>
@@ -165,6 +165,37 @@ $courses = $course->getCourses();
                 </div>
             </div>
             <?php endforeach;?>
+        </div>
+
+        <div class="mt-8 flex justify-center">
+            <nav class="flex items-center space-x-2">
+                <?php if($page > 1): ?>
+                    <a href="?page=<?= $page-1 ?>" 
+                       class="px-3 py-2 glass-effect rounded-lg text-gray-300 hover:text-purple-400 hover:bg-white/5 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                    </a>
+                <?php endif; ?>
+
+                <?php
+                    for($i = 1; $i <= $totalPages; $i++):
+                ?>
+                    <a href="?page=<?= $i ?>" 
+                       class="px-4 py-2 glass-effect rounded-lg <?= $page == $i ? 'bg-purple-500/20 text-purple-400' : 'text-gray-300 hover:text-purple-400 hover:bg-white/5' ?> transition-colors">
+                        <?= $i ?>
+                    </a>
+                <?php endfor; ?>
+
+                <?php if($page < $totalPages): ?>
+                    <a href="?page=<?= $page+1 ?>" 
+                       class="px-3 py-2 glass-effect rounded-lg text-gray-300 hover:text-purple-400 hover:bg-white/5 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                <?php endif; ?>
+            </nav>
         </div>
     </main>
 
@@ -212,7 +243,6 @@ $courses = $course->getCourses();
         </div>
     </footer>
     <script>
-        // Toggle dropdown menu
         const profileButton = document.querySelector('.profile-button');
         const dropdownMenu = document.querySelector('.dropdown-menu');
 
@@ -220,7 +250,6 @@ $courses = $course->getCourses();
             dropdownMenu.classList.toggle('hidden');
         });
 
-        // Close dropdown when clicking outside
         document.addEventListener('click', (e) => {
             if (!profileButton.contains(e.target)) {
                 dropdownMenu.classList.add('hidden');

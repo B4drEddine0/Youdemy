@@ -48,11 +48,23 @@ class Course{
         return false;
     }
 
-    public function getCourses(){
-        $query = "SELECT c.*,cat.name,u.username FROM courses c left join categories cat on c.category_id = cat.cat_id left join users u on c.teacher_id = u.users_id ORDER BY title";
+    public function getCourses($page){
+        $record_per_page = 4;
+        $start_from = ($page-1)*$record_per_page;
+        $query = "SELECT c.*,cat.name,u.username FROM courses c left join categories cat on c.category_id = cat.cat_id left join users u on c.teacher_id = u.users_id ORDER BY title LIMIT $start_from, $record_per_page";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll();
+    }
+
+    public function getTotalPages() {
+        $record_per_page = 4;
+        $query = "SELECT COUNT(*) as total FROM courses";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        $result = $stmt->fetch();
+        
+        return ceil($result['total'] / $record_per_page);
     }
 }
 ?>
