@@ -64,6 +64,7 @@ $enrolls = $enroll->getEnroll($_SESSION['user_id']);
                         <button class="px-4 py-2 bg-purple-500 hover:bg-purple-600 rounded-xl transition-colors">
                             Open Course
                         </button>
+                        </a>
                     </div>
                 </div>
             </div>

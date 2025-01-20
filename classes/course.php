@@ -66,5 +66,21 @@ class Course{
         
         return ceil($result['total'] / $record_per_page);
     }
+
+    public function getAllCourses(){
+        $query='SELECT c.*,cat.name,u.username FROM courses c left join categories cat on c.category_id = cat.cat_id left join users u on c.teacher_id = u.users_id ORDER BY title';
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    public function search($search){
+        $query='SELECT c.*,cat.name,u.username FROM courses c left join categories cat on c.category_id = cat.cat_id left join users u on c.teacher_id = u.users_id where title LIKE :search or description LIKE :search or cat.name LIKE :search or u.username LIKE :search';
+        $stmt = $this->db->prepare($query);
+        $searchTerm = "%" . $search . "%";
+        $stmt->bindParam(':search',$searchTerm);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
 }
 ?>
