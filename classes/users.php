@@ -68,10 +68,24 @@ class User{
                 
                 switch($user['role']) {
                     case 'admin':
+                        if($user['status']==='deleted'){
+                            header('Location: ../views/login.php?status=deleted');
+                            break;
+                        }elseif($user['status']==='suspended'){
+                            header('Location: ../views/login.php?status=suspended');
+                            break;
+                        }else{
                         header('Location: ../views/dashboard-admin.php');
                         break;
+                        }
                     case 'teacher':
-                        if($user['status']==='pending'){
+                        if($user['status']==='deleted'){
+                            header('Location: ../views/login.php?status=deleted');
+                            break;
+                        }elseif($user['status']==='suspended'){
+                            header('Location: ../views/login.php?status=suspended');
+                            break;
+                        }elseif($user['status']==='pending'){
                             header('Location: ../views/login.php?status=pending');
                             break;
                         }else{
@@ -79,8 +93,16 @@ class User{
                            break; 
                         }   
                     case 'student':
+                        if($user['status']==='deleted'){
+                            header('Location: ../views/login.php?status=deleted');
+                            break;
+                        }elseif($user['status']==='suspended'){
+                            header('Location: ../views/login.php?status=suspended');
+                            break;
+                        }else{
                         header('Location: ../index.php');
                         break;
+                        }
                 }
                 exit();
            

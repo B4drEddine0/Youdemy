@@ -35,24 +35,9 @@ if(isset($_GET['id'])){
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
-                    <h1 class="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                    <a href="../index.php"><h1 class="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                         YouDemy
-                    </h1>
-                </div>
-
-                <div class="hidden md:flex items-center space-x-4">
-                    <a href="#" class="px-3 py-2 text-gray-300 hover:text-purple-400">Dashboard</a>
-                    <a href="#" class="px-3 py-2 text-purple-400">Courses</a>
-                    <a href="#" class="px-3 py-2 text-gray-300 hover:text-purple-400">My Learning</a>
-                    <a href="#" class="px-3 py-2 text-gray-300 hover:text-purple-400">Analytics</a>
-                </div>
-
-                <div class="flex items-center">
-                    <button class="flex items-center space-x-3 glass-effect rounded-full px-4 py-2">
-                        <img src="https://ui-avatars.com/api/?name=John+Doe" alt="User" 
-                             class="w-8 h-8 rounded-full">
-                        <span><?=$_SESSION['username']?></span>
-                    </button>
+                    </h1></a>
                 </div>
             </div>
         </div>
@@ -100,6 +85,9 @@ if(isset($_GET['id'])){
                     <p class="text-gray-300">
                         <?=$courseDetails['description'];?>
                     </p>
+                    <?php
+                    if($_SESSION['role']==='student'):
+                    ?>
                     <form action="../processes/coursePros.php" method='POST'> 
                     <input type="hidden" name='userId' value='<?=$_SESSION['user_id']?>'>
                     <input type="hidden" name='courseId' value='<?=$_GET['id']?>'>
@@ -112,6 +100,19 @@ if(isset($_GET['id'])){
                         </svg>
                     </button>
                     </form> 
+                    <?php else: ?>
+                    <div class="bg-purple-500/10 text-purple-400 px-6 py-3 rounded-xl inline-flex items-center space-x-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <span>Please sign in as a student to enroll in this course</span>
+                        <button class="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 
+                                 text-white px-6 py-2.5 rounded-xl transition duration-200 inline-flex items-center space-x-2"
+                                 onclick="return history.back()" type='submit' name='back'>
+                        <span>Go Back</span>
+                    </button>
+                    </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

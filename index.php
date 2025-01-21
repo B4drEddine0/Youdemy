@@ -29,7 +29,7 @@ $totalPages = $course->getTotalPages();
     </style>
 </head>
 <body class="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white min-h-screen flex flex-col">
-    <nav class="glass-effect border-b border-gray-800 sticky top-0 z-50">
+<nav class="glass-effect border-b border-gray-800 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex items-center space-x-8">
@@ -57,31 +57,89 @@ $totalPages = $course->getTotalPages();
                 </div>
 
                 <div class="flex items-center space-x-4">
-                    <div class="relative">
-                        <button class="flex items-center space-x-3 glass-effect rounded-full px-4 py-2 hover:bg-white/10 transition-colors profile-button">
-                            <img src="assets/images/profil.webp" 
-                                 alt="Alex Johnson" 
-                                 class="w-8 h-8 rounded-full">
-                            <div class="text-left">
-                                <div class="text-sm font-medium"><?=$_SESSION['username']?></div>
-                                <div class="text-xs text-gray-400"><?=$_SESSION['role']?></div>
-                            </div>
-                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                            </svg>
-                        </button>
+                    <?php if($_SESSION['role']==='student'): ?>
+                        <div class="relative">
+                            <button class="flex items-center space-x-3 glass-effect rounded-full px-4 py-2 hover:bg-white/10 transition-colors profile-button">
+                                <img src="assets/images/profil.webp" 
+                                     alt="Profile Picture" 
+                                     class="w-8 h-8 rounded-full">
+                                <div class="text-left">
+                                    <div class="text-sm font-medium"><?=$_SESSION['username']?></div>
+                                    <div class="text-xs text-gray-400"><?=$_SESSION['role']?></div>
+                                </div>
+                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </button>
 
-                        <div class="absolute right-0 mt-2 w-48 py-2 bg-gray-800 rounded-xl glass-effect border border-gray-700 shadow-xl z-50 hidden dropdown-menu">
-                            <a href="views/mycourses.php" class="block px-4 py-2 text-sm text-gray-300 hover:bg-purple-500/10 hover:text-purple-400">
-                                My Courses
-                            </a>
-                            <div class="border-t border-gray-700 my-2"></div>
-                            <a href="#" class="block px-4 py-2 text-sm text-red-400 hover:bg-red-500/10">
-                                Sign Out
-                            </a>
+                            <div class="absolute right-0 mt-2 w-48 py-2 bg-gray-800 rounded-xl glass-effect border border-gray-700 shadow-xl z-50 hidden dropdown-menu">
+                                <a href="views/mycourses.php" class="block px-4 py-2 text-sm text-gray-300 hover:bg-purple-500/10 hover:text-purple-400">
+                                    My Courses
+                                </a>
+                                <div class="border-t border-gray-700 my-2"></div>
+                                <a href="processes/logout.php" class="block px-4 py-2 text-sm text-red-400 hover:bg-red-500/10">
+                                    Sign Out
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                    <?php elseif($_SESSION['role']==='teacher'): ?>
+                        <div class="relative">
+                            <button class="flex items-center space-x-3 glass-effect rounded-full px-4 py-2 hover:bg-white/10 transition-colors profile-button">
+                                <img src="assets/images/profil.webp" 
+                                     alt="Profile Picture" 
+                                     class="w-8 h-8 rounded-full">
+                                <div class="text-left">
+                                    <div class="text-sm font-medium"><?=$_SESSION['username']?></div>
+                                    <div class="text-xs text-gray-400"><?=$_SESSION['role']?></div>
+                                </div>
+                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </button>
+
+                            <div class="absolute right-0 mt-2 w-48 py-2 bg-gray-800 rounded-xl glass-effect border border-gray-700 shadow-xl z-50 hidden dropdown-menu">
+                                <a href="views/dashboard-teacher.php" class="block px-4 py-2 text-sm text-gray-300 hover:bg-purple-500/10 hover:text-purple-400">
+                                    Dashboard
+                                </a>
+                                <div class="border-t border-gray-700 my-2"></div>
+                                <a href="processes/logout.php" class="block px-4 py-2 text-sm text-red-400 hover:bg-red-500/10">
+                                    Sign Out
+                                </a>
+                            </div>
+                        </div>
+                        <?php elseif($_SESSION['role']==='admin'): ?>
+                        <div class="relative">
+                            <button class="flex items-center space-x-3 glass-effect rounded-full px-4 py-2 hover:bg-white/10 transition-colors profile-button">
+                                <img src="assets/images/profil.webp" 
+                                     alt="Profile Picture" 
+                                     class="w-8 h-8 rounded-full">
+                                <div class="text-left">
+                                    <div class="text-sm font-medium"><?=$_SESSION['username']?></div>
+                                    <div class="text-xs text-gray-400"><?=$_SESSION['role']?></div>
+                                </div>
+                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </button>
+
+                            <div class="absolute right-0 mt-2 w-48 py-2 bg-gray-800 rounded-xl glass-effect border border-gray-700 shadow-xl z-50 hidden dropdown-menu">
+                                <a href="views/dashboard-admin.php" class="block px-4 py-2 text-sm text-gray-300 hover:bg-purple-500/10 hover:text-purple-400">
+                                    Dashboard
+                                </a>
+                                <div class="border-t border-gray-700 my-2"></div>
+                                <a href="processes/logout.php" class="block px-4 py-2 text-sm text-red-400 hover:bg-red-500/10">
+                                    Sign Out
+                                </a>
+                            </div>
+                        </div>
+                    <?php else: ?>
+                        <div class="flex items-center space-x-4">
+                            <a href="views/login.php" class="text-gray-300 hover:text-purple-400">Sign In</a>
+                            <a href="views/signup.php" class="bg-purple-500 hover:bg-purple-600 px-4 py-2 rounded-full transition-colors">Sign Up</a>
+                        </div>
+                    <?php endif; ?>
                 </div>
+
             </div>
         </div>
     </nav>

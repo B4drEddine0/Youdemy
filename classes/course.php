@@ -82,5 +82,23 @@ class Course{
         $stmt->execute();
         return $stmt->fetchAll();
     }
+
+    public function getTotalEnrolls($id){
+        $query="SELECT count(*) as 'total_etd' from enrollments e join courses c on e.courses_id = c.courses_id where c.teacher_id = :id ";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id',$id);
+        $stmt->execute();
+        $res = $stmt->fetchColumn();
+        return $res;
+    }
+
+    public function getTotalEtud($id){
+        $query="SELECT count(DISTINCT e.student_id) as 'total_etd' from enrollments e join courses c on e.courses_id = c.courses_id where c.teacher_id = :id ";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id',$id);
+        $stmt->execute();
+        $res = $stmt->fetchColumn();
+        return $res;
+    }
 }
 ?>

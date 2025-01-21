@@ -8,7 +8,7 @@ if(isset($_POST['createAcc'])){
     $user->setPassword($_POST['password']);
     $user->setRole($_POST['role']);
     if($user->singUp()){
-        header('location: login.php');
+        header('location: ../views/login.php');
     }
 }
 

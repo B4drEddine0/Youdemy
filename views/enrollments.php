@@ -17,29 +17,41 @@ $enrolls = $enroll->getEnrollsByTeach($_SESSION['user_id']);
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white min-h-screen">
-    <nav class="glass-effect border-b border-gray-800">
+<nav class="glass-effect border-b border-gray-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <h1 class="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                        YouDemy Admin
+                        YouDemy Teacher
                     </h1>
                 </div>
 
                 <div class="hidden md:flex items-center space-x-4">
-                    <a href="#" class="px-3 py-2 text-gray-300 hover:text-purple-400">Dashboard</a>
-                    <a href="#" class="px-3 py-2 text-purple-400">Enrollments</a>
-                    <a href="#" class="px-3 py-2 text-gray-300 hover:text-purple-400">Users</a>
-                    <a href="#" class="px-3 py-2 text-gray-300 hover:text-purple-400">Analytics</a>
+                    <a href="dashboard-teacher.php" class="px-3 py-2 hover:text-purple-400">Dashboard</a>
+                    <a href="enrollments.php" class="px-3 py-2 text-gray-300 text-purple-400">Students</a>
                 </div>
 
-                <div class="flex items-center">
-                    <button class="flex items-center space-x-3 glass-effect rounded-full px-4 py-2">
-                        <img src="https://ui-avatars.com/api/?name=Admin+User" alt="Admin" 
-                             class="w-8 h-8 rounded-full">
-                        <span>Admin User</span>
-                    </button>
-                </div>
+                <div class="flex items-center space-x-4">
+                <div class="relative">
+                            <button class="flex items-center space-x-3 glass-effect rounded-full px-4 py-2 hover:bg-white/10 transition-colors profile-button">
+                                <img src="../assets/images/profil.webp" 
+                                     alt="Profile Picture" 
+                                     class="w-8 h-8 rounded-full">
+                                <div class="text-left">
+                                    <div class="text-sm font-medium"><?=$_SESSION['username']?></div>
+                                    <div class="text-xs text-gray-400"><?=$_SESSION['role']?></div>
+                                </div>
+                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </button>
+
+                            <div class="absolute right-0 mt-2 w-48 py-2 bg-gray-800 rounded-xl glass-effect border border-gray-700 shadow-xl z-50 hidden dropdown-menu">
+                                <a href="../processes/logout.php" class="block px-4 py-2 text-sm text-red-400 hover:bg-red-500/10">
+                                    Sign Out
+                                </a>
+                            </div>
+                  </div>
             </div>
         </div>
     </nav>
@@ -101,6 +113,20 @@ $enrolls = $enroll->getEnrollsByTeach($_SESSION['user_id']);
             </table>
         </div>
     </main>
+    <script>
+        const profileButton = document.querySelector('.profile-button');
+        const dropdownMenu = document.querySelector('.dropdown-menu');
+
+        profileButton.addEventListener('click', () => {
+            dropdownMenu.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!profileButton.contains(e.target)) {
+                dropdownMenu.classList.add('hidden');
+            }
+        });
+    </script>
 </body>
 </html>
 

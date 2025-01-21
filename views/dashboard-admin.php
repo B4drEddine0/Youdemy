@@ -72,6 +72,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </svg>
                     Tags
                 </a>
+
+                <a href="../index.php" class="flex items-center px-4 py-3 text-gray-400 hover:bg-purple-500/10 hover:text-purple-400 rounded-xl transition-colors">
+                    Visite The Platform
+                </a>
             </div>
 
             <div class="absolute bottom-0 left-0 right-0 p-6">
