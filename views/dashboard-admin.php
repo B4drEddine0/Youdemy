@@ -121,18 +121,12 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $users = $user->getUsers();
                 echo count($user->getUsers());
                 ?></div>
-                <div class="flex items-center text-green-400 text-sm mt-2">
-                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
-                    </svg>
-                    12.5%
-                </div>
             </div>
 
 
             <div class="glass-effect rounded-2xl p-6">
                 <div class="flex items-center justify-between mb-4">
-                    <div class="text-gray-400">Active Courses</div>
+                    <div class="text-gray-400">Total Courses</div>
                     <div class="p-2 bg-pink-500/10 rounded-xl text-pink-400">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
@@ -144,12 +138,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $courses = $course->getAllCourses();
                 echo count($course->getAllCourses());
                 ?></div>
-                <div class="flex items-center text-green-400 text-sm mt-2">
-                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
-                    </svg>
-                    8.2%
-                </div>
             </div>
 
 
@@ -166,12 +154,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="text-3xl font-bold"><?php $tag = new tag();
                                                       $tags = $tag->getTags();
                                                       echo count($tag->getTags());?></div>
-                <div class="flex items-center text-green-400 text-sm mt-2">
-                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
-                    </svg>
-                    8.2%
-                </div>
             </div>
 
 
@@ -189,20 +171,92 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $categories = $cat->getCategs();
                 echo count($cat->getCategs());
                 ?></div>
-                <div class="flex items-center text-green-400 text-sm mt-2">
-                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
-                    </svg>
-                    8.2%
-                </div>
             </div>
         </div>
 
 
 
         <div id="dashboard-section">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                
             <div class="glass-effect rounded-2xl p-6">
-               ..
+                <h3 class="text-xl font-bold mb-4">Répartition par catégorie</h3>
+                <div class="space-y-4">
+                    <?php
+                    $reparts = $course->getRepartition();
+                    foreach($reparts as $rep):
+                    ?>
+                    <div class="transform transition-all duration-200 hover:scale-102 glass-effect p-4 rounded-xl">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-2 h-2 rounded-full bg-purple-500"></div>
+                                <span class="font-medium"><?=$rep->name?></span>
+                            </div>
+                            <span class="px-3 py-1 bg-purple-500/10 text-purple-400 rounded-lg">
+                                <?=$rep->total?> cours
+                            </span>
+                        </div>
+                    </div>
+                    <?php endforeach;?>
+                </div>
+            </div>
+
+            <div class="glass-effect rounded-2xl p-6">
+                <h3 class="text-xl font-bold mb-4">Cours le plus populaire</h3>
+                <?php
+                $pop = $course->getMostPop();
+                ?>
+                <div class="relative group">
+                    <div class="relative h-48 rounded-xl overflow-hidden mb-4">
+                        <img src="<?=$pop->image?>" 
+                            class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300" 
+                            alt="<?=htmlspecialchars($pop->title)?> thumbnail">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h4 class="text-lg font-semibold line-clamp-2"><?=htmlspecialchars($pop->title)?></h4>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <div class="p-2 bg-purple-500/10 rounded-lg">
+                                    <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <span class="text-2xl font-bold text-purple-400"><?=$pop->nb?></span>
+                                    <span class="text-gray-400 text-sm ml-1">étudiants</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <div class="glass-effect rounded-2xl p-6 lg:col-span-2">
+                    <h3 class="text-xl font-bold mb-4">Top 3 Enseignants</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <?php 
+                        $teachers = $course->getTopTeachers();
+                        foreach($teachers as $teach):
+                        ?>
+                        <div class="flex items-center space-x-4 p-4 bg-purple-500/10 rounded-xl">
+                            <div class="relative">
+                                <img src="../assets/images/profil.webp" 
+                                     class="w-16 h-16 rounded-full" alt="Teacher avatar">
+                            </div>
+                            <div>
+                                <h4 class="font-semibold"><?=$teach->username?></h4>
+                                <p class="text-sm text-gray-400"><?=$teach->courses?> cours</p>
+                                <p class="text-sm text-purple-400"><?=$teach->enrolls?> étudiants</p>
+                            </div>
+                        </div>
+                        <?php endforeach;?>
+                        
+                    </div>
+                </div>
             </div>
         </div>
 

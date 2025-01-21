@@ -100,5 +100,27 @@ class Course{
         $res = $stmt->fetchColumn();
         return $res;
     }
+
+    public function getRepartition(){
+        $query="SELECT count(*) as total ,cat.name from courses c join categories cat on c.category_id = cat.cat_id group by c.category_id ";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function getMostPop(){
+        $query="SELECT c.courses_id, c.title, c.image,(SELECT COUNT(*) FROM enrollments e WHERE e.courses_id = c.courses_id) as nb FROM courses c GROUP BY nb DESC LIMIT 1";
+        $stmt= $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_OBJ);
+    }
+
+    public function getTopTeachers(){
+        $query="SELECT c.teacher_id,u.username,COUNT(DISTINCT c.courses_id) as courses,COUNT(e.student_id) as enrolls FROM courses c JOIN users u ON c.teacher_id = u.users_id
+        LEFT JOIN enrollments e ON c.courses_id = e.courses_id GROUP BY c.teacher_id, u.username ORDER BY enrolls DESC LIMIT 3;";
+        $stmt= $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
 }
 ?>
